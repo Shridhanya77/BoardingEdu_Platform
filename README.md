@@ -27,7 +27,25 @@ School profiles and fees in the demo are **fictional sample data** for evaluatio
 
 ---
 
-## 2. Features
+## 2. Screenshots
+
+These screenshots are included in the repository and are ready to render on GitHub.
+
+![Home page](docs/screenshots/01-home.png)
+
+![Schools listing](docs/screenshots/02-schools.png)
+
+![School detail](docs/screenshots/03-school-detail.png)
+
+![Compare view](docs/screenshots/04-compare.png)
+
+![Login page](docs/screenshots/05-login.png)
+
+![Parent dashboard](docs/screenshots/06-parent-dashboard.png)
+
+![Admin dashboard](docs/screenshots/07-admin-dashboard.png)
+
+## 3. Features
 
 ### Public (Guest)
 

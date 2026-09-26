@@ -56,7 +56,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI = _normalize_database_url(
         os.getenv(
             "DATABASE_URL",
-            "postgresql://postgres:postgres123@localhost:5432/BoardingEdu",
+            "postgresql://postgres:postgres123@localhost:5432/boardingedu",
         )
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -65,7 +65,7 @@ class Config:
         origin.strip()
         for origin in os.getenv(
             "CORS_ORIGINS",
-            "http://localhost:5173,http://127.0.0.1:5173",
+            "http://localhost:4173,http://127.0.0.1:4173,http://localhost:4175,http://127.0.0.1:4175,http://localhost:5173,http://127.0.0.1:5173",
         ).split(",")
         if origin.strip()
     ]

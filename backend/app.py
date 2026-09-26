@@ -75,9 +75,20 @@ def create_app(config_class=Config):
 def _init_extensions(app):
     db.init_app(app)
     jwt.init_app(app)
+    allowed_origins = app.config.get(
+        "CORS_ORIGINS",
+        [
+            "http://localhost:4173",
+            "http://127.0.0.1:4173",
+            "http://localhost:4175",
+            "http://127.0.0.1:4175",
+            "http://localhost:5173",
+            "http://127.0.0.1:5173",
+        ],
+    )
     cors.init_app(
         app,
-        resources={r"/api/*": {"origins": app.config.get("CORS_ORIGINS", "*")}},
+        resources={r"/api/*": {"origins": allowed_origins}},
         supports_credentials=True,
     )
 
