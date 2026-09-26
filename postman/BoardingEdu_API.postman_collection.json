@@ -1,0 +1,258 @@
+{
+  "info": {
+    "name": "BoardingEdu API",
+    "description": "Postman collection for BoardingEdu School Discovery & Admission Platform REST API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "token", "value": "" },
+    { "key": "adminToken", "value": "" },
+    { "key": "schoolId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "GET Health",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/health"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register Parent",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Parent\",\n  \"email\": \"postman.parent@example.com\",\n  \"phone\": \"+91-9876500000\",\n  \"password\": \"PostmanPass1\",\n  \"role\": \"parent\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/register"
+          }
+        },
+        {
+          "name": "Login Parent",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.data && json.data.access_token) {",
+                  "  pm.collectionVariables.set('token', json.data.access_token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"parent@boardingedu.demo\",\n  \"password\": \"ParentDemo@123\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.data && json.data.access_token) {",
+                  "  pm.collectionVariables.set('adminToken', json.data.access_token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@boardingedu.demo\",\n  \"password\": \"AdminDemo@123\"\n}"
+            },
+            "url": "{{baseUrl}}/auth/login"
+          }
+        },
+        {
+          "name": "GET Me",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/auth/me"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Schools",
+      "item": [
+        {
+          "name": "List Schools",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/schools?page=1&per_page=12&sort=name"
+          }
+        },
+        {
+          "name": "Search Filter Schools",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/schools?city=Mumbai&board=CBSE&sort=fee_asc"
+          }
+        },
+        {
+          "name": "Filter Options",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/schools/filters"
+          }
+        },
+        {
+          "name": "School Detail",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/schools/{{schoolId}}"
+          }
+        },
+        {
+          "name": "Create School (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Postman Demo School\",\n  \"city\": \"Mumbai\",\n  \"state\": \"Maharashtra\",\n  \"board\": \"CBSE\",\n  \"school_type\": \"Day School\",\n  \"gender\": \"Co-ed\",\n  \"min_fee\": 80000,\n  \"max_fee\": 150000,\n  \"hostel_available\": false\n}"
+            },
+            "url": "{{baseUrl}}/schools"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shortlists",
+      "item": [
+        {
+          "name": "Add Shortlist",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"school_id\": {{schoolId}}\n}"
+            },
+            "url": "{{baseUrl}}/shortlists"
+          }
+        },
+        {
+          "name": "List Shortlists",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/shortlists"
+          }
+        },
+        {
+          "name": "Remove Shortlist",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/shortlists/{{schoolId}}"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Enquiries",
+      "item": [
+        {
+          "name": "Submit Enquiry",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"school_id\": {{schoolId}},\n  \"student_name\": \"Aarav Sharma\",\n  \"parent_name\": \"Demo Parent\",\n  \"class_name\": \"Class 5\",\n  \"academic_year\": \"2026-27\",\n  \"phone\": \"+91-9000000002\",\n  \"email\": \"parent@boardingedu.demo\",\n  \"message\": \"Interested in a campus visit.\"\n}"
+            },
+            "url": "{{baseUrl}}/enquiries"
+          }
+        },
+        {
+          "name": "List My Enquiries",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": "{{baseUrl}}/enquiries"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Dashboard",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/admin/dashboard"
+          }
+        },
+        {
+          "name": "Users",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/admin/users"
+          }
+        },
+        {
+          "name": "List Enquiries",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": "{{baseUrl}}/admin/enquiries"
+          }
+        },
+        {
+          "name": "Update Enquiry Status",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"Contacted\"\n}"
+            },
+            "url": "{{baseUrl}}/admin/enquiries/1/status"
+          }
+        }
+      ]
+    }
+  ]
+}

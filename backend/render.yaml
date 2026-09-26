@@ -1,0 +1,33 @@
+# Render Blueprint for BoardingEdu API
+# Docs: https://render.com/docs/blueprint-spec
+#
+# Usage: connect this repo in Render → New → Blueprint
+# Or create a Web Service manually using the same settings.
+
+databases:
+  - name: boardingedu-db
+    plan: free
+    databaseName: boardingedu
+    user: boardingedu
+
+services:
+  - type: web
+    name: boardingedu-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: boardingedu-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: CORS_ORIGINS
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.12.0"

@@ -1,0 +1,2 @@
+# Used by Render / gunicorn deployments (Phase 15)
+web: gunicorn app:app
