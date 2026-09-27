@@ -10,7 +10,10 @@ const normalizeBaseUrl = (url) => {
 
 const rawBaseUrl = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL)
 const fallbackLocal = 'http://127.0.0.1:5000/api'
-const finalBaseUrl = rawBaseUrl || fallbackLocal
+const fallbackProduction = 'https://boardingedu-platform-1.onrender.com/api'
+const isDevEnv = import.meta.env.DEV
+const defaultFallback = isDevEnv ? fallbackLocal : fallbackProduction
+const finalBaseUrl = rawBaseUrl || defaultFallback
 
 const api = axios.create({
   baseURL: finalBaseUrl,
@@ -56,9 +59,13 @@ export function getErrorMessage(error, fallback = 'Something went wrong.') {
       }
       const apiBase = finalBaseUrl.replace(/\/api\/?$/, '')
       const isLocal = apiBase.includes('localhost') || apiBase.includes('127.0.0.1')
-      const hint = isLocal
-        ? `\nRun: cd backend ; python app.py`
-        : ''
+      const isVercel = typeof window !== 'undefined' && window.location.hostname.includes('vercel.app')
+      let hint = ''
+      if (isLocal) {
+        hint = `\nRun: cd backend ; python app.py`
+      } else if (isVercel) {
+        hint = `\nVercel hint: Check that VITE_API_BASE_URL is set in Vercel Project → Settings → Environment Variables, then Redeploy.`
+      }
       return (
         `Network error. Check that the API server is running at \`${apiBase}\`.` +
         hint

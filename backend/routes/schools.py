@@ -1,5 +1,7 @@
 """School CRUD, search/filter, and related-resource API routes."""
 
+import logging
+
 from flask import Blueprint, request
 
 from services.school_service import (
@@ -20,6 +22,7 @@ from utils.responses import error_response, success_response
 from utils.validators import validate_school_payload
 
 schools_bp = Blueprint("schools", __name__, url_prefix="/api/schools")
+logger = logging.getLogger(__name__)
 
 
 def _parse_positive_int(value, default, maximum=None):
@@ -131,7 +134,8 @@ def get_schools():
 
     try:
         result = list_schools(page=page, per_page=per_page, filters=filters)
-    except Exception:
+    except Exception as exc:
+        logger.exception("list_schools failed: %s", exc)
         return error_response("Unable to load schools.", 500)
 
     return success_response(data=result)
@@ -142,7 +146,8 @@ def school_filter_options():
     """Distinct cities/boards/types/genders + facilities for filter UIs."""
     try:
         options = get_filter_options()
-    except Exception:
+    except Exception as exc:
+        logger.exception("get_filter_options failed: %s", exc)
         return error_response("Unable to load filter options.", 500)
     return success_response(data=options)
 
