@@ -6,7 +6,7 @@ Phase 15: Testing + deployment-ready API.
 
 import logging
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.exceptions import HTTPException
@@ -128,11 +128,9 @@ def create_app(config_class=Config):
 
 
 def _init_extensions(app):
-    import re
-
     db.init_app(app)
     jwt.init_app(app)
-    allowed_origins = app.config.get(
+    configured_origins = app.config.get(
         "CORS_ORIGINS",
         [
             "http://localhost:4173",
@@ -141,26 +139,59 @@ def _init_extensions(app):
             "http://127.0.0.1:4175",
             "http://localhost:5173",
             "http://127.0.0.1:5173",
+            "https://boarding-edu-platform.vercel.app",
+            "https://boardingedu-platform.vercel.app",
         ],
     )
 
-    vercel_pattern = re.compile(r"^https://.+\.vercel\.app$")
-    render_pattern = re.compile(r"^https://.+\.onrender\.com$")
+    # Build full origins list: static origins + regex patterns for any Vercel/Render preview/deploy URL.
+    # flask-cors auto-detects regex chars ($) and treats them as regex patterns.
+    cors_origins = list(configured_origins) + [
+        r"^https://.+\.vercel\.app$",
+        r"^https://.+\.vercel\.dev$",
+        r"^https://.+\.onrender\.com$",
+    ]
 
-    def _cors_origin_check(origin):
-        if origin in allowed_origins:
-            return origin
-        if vercel_pattern.match(origin or ""):
-            return origin
-        if render_pattern.match(origin or ""):
-            return origin
-        return False
+    app.logger.info("CORS origins (static + regex patterns): %s", cors_origins)
 
     cors.init_app(
         app,
-        resources={r"/api/*": {"origins": _cors_origin_check}},
-        supports_credentials=True,
+        resources={
+            r"/api/*": {
+                "origins": cors_origins,
+                "supports_credentials": True,
+                "methods": ["GET", "HEAD", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+                "allow_headers": ["Content-Type", "Authorization", "Accept", "Origin"],
+                "expose_headers": ["Content-Type", "Authorization"],
+                "max_age": 3600,
+            }
+        },
     )
+
+    @app.after_request
+    def _ensure_cors_headers(response):
+        """Redundant safety net — force CORS headers for *.vercel.app / *.onrender.com even if flask-cors misses them."""
+        origin = request.headers.get("Origin", "")
+        if not origin:
+            return response
+        allowed_static = origin in configured_origins
+        o = origin.lower()
+        allowed_pattern = o.startswith("https://") and (
+            o.endswith(".vercel.app")
+            or o.endswith(".vercel.dev")
+            or o.endswith(".onrender.com")
+        )
+        if allowed_static or allowed_pattern:
+            response.headers["Access-Control-Allow-Origin"] = origin
+            response.headers["Access-Control-Allow-Credentials"] = "true"
+            response.headers["Access-Control-Allow-Methods"] = (
+                "GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH"
+            )
+            response.headers["Access-Control-Allow-Headers"] = (
+                "Content-Type, Authorization, Accept, Origin"
+            )
+            response.headers["Access-Control-Max-Age"] = "3600"
+        return response
 
     @jwt.unauthorized_loader
     def _unauthorized_callback(reason):
