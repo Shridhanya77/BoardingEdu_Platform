@@ -17,7 +17,7 @@ Never commit real secrets. Use each platform's environment variable UI.
 | # | Where | Setting | Value |
 |---|-------|---------|-------|
 | 1 | **Vercel → Project → Settings → Environment Variables** | `VITE_API_BASE_URL` | `https://boardingedu-platform-1.onrender.com/api`  *(no trailing slash, no trailing period)* |
-| 2 | **Render → Backend → Environment** | `CORS_ORIGINS` | `https://boardingedu-platform.vercel.app` *(exact Vercel URL, no trailing slash)* |
+| 2 | **Render → Backend → Environment** | `CORS_ORIGINS` | `https://boarding-edu-platform.vercel.app` *(exact Vercel URL from browser address bar, no trailing slash)* |
 | 3 | **Render → Backend → Environment** | `DATABASE_URL` | Provided automatically by Render's internal PG, or your hosted PostgreSQL URL |
 | 4 | **Render → Backend → Environment** | `SECRET_KEY` + `JWT_SECRET_KEY` | Two different long random strings |
 
@@ -80,7 +80,7 @@ From the Render dashboard, use **Blueprint** and point at the repo’s `backend/
 | `DATABASE_URL` | Hosted Postgres URL (Render can inject this) |
 | `SECRET_KEY` | Long random string |
 | `JWT_SECRET_KEY` | Different long random string |
-| `CORS_ORIGINS` | Your Vercel URL, e.g. `https://your-app.vercel.app` |
+| `CORS_ORIGINS` | Your exact Vercel frontend URL, e.g. `https://boarding-edu-platform.vercel.app` — copy-paste from the browser address bar, no trailing slash |
 | `DEMO_ADMIN_EMAIL` / `DEMO_ADMIN_PASSWORD` | Only if you re-run seed on the host |
 | `DEMO_PARENT_EMAIL` / `DEMO_PARENT_PASSWORD` | Same |
 
