@@ -15,25 +15,54 @@ const isDevEnv = import.meta.env.DEV
 const defaultFallback = isDevEnv ? fallbackLocal : fallbackProduction
 const finalBaseUrl = rawBaseUrl || defaultFallback
 
+// eslint-disable-next-line no-console
+console.log('[BoardingEdu] API base URL:', finalBaseUrl)
+
 const api = axios.create({
   baseURL: finalBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 20000,
+  timeout: 60000,
 })
+
+const MAX_RETRIES = 2
+const RETRY_DELAY_MS = 1500
+
+const sleep = (ms) => new Promise((res) => setTimeout(res, ms))
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('be_token')
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
+  if (config.__retryCount == null) {
+    config.__retryCount = 0
+  }
   return config
 })
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    const config = error.config || {}
+    const method = (config.method || 'get').toLowerCase()
+    const isNetworkError = !error.response
+    const isServerHang = error.code === 'ECONNABORTED' || /timeout/i.test(error.message || '')
+    const isServerError = error.response && error.response.status >= 500
+    const canRetry =
+      method === 'get' && (isNetworkError || isServerHang || isServerError)
+
+    if (canRetry && (config.__retryCount || 0) < MAX_RETRIES) {
+      config.__retryCount = (config.__retryCount || 0) + 1
+      // eslint-disable-next-line no-console
+      console.warn(
+        `[BoardingEdu] Retrying ${method} ${config.url || ''} (attempt ${config.__retryCount}/${MAX_RETRIES})`,
+      )
+      await sleep(RETRY_DELAY_MS * config.__retryCount)
+      return api.request(config)
+    }
+
     if (error.response?.status === 401) {
       const url = error.config?.url || ''
       if (!url.includes('/auth/login') && !url.includes('/auth/register')) {
@@ -44,6 +73,17 @@ api.interceptors.response.use(
         }
       }
     }
+
+    if (isNetworkError) {
+      // eslint-disable-next-line no-console
+      console.error('[BoardingEdu] Network error reaching API:', {
+        baseURL: finalBaseUrl,
+        url: config.url,
+        error: error.message,
+        code: error.code,
+      })
+    }
+
     return Promise.reject(error)
   },
 )
