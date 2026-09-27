@@ -1,6 +1,6 @@
 # 🏫 BoardingEdu – School Discovery & Admission Platform
 
-> **Live Demo:** [BoardingEdu](https://boardingedu-platform.vercel.app)
+> **Live Demo:** [BoardingEdu](https://boarding-edu-platform.vercel.app)
 >
 > **Backend API:** `https://boardingedu-platform-1.onrender.com`
 >
