@@ -1,215 +1,227 @@
-# BoardingEdu – School Discovery & Admission Platform
+# 🏫 BoardingEdu – School Discovery & Admission Platform
 
-A full-stack web application that helps parents and students **discover schools**, explore fees and facilities, **compare and shortlist** options, and **submit admission enquiries**. Administrators can manage schools, users, and enquiry status.
+<div align="center">
 
-Built as a production-minded portfolio / job-evaluation project for **BoardingEdu**, inspired by the general concept of school discovery platforms — **without copying** any third-party branding, UI, text, images, or proprietary content.
+**A full-stack web application that helps parents and students discover schools, explore fees and facilities, compare and shortlist options, and submit admission enquiries.**
 
----
+[![React](https://img.shields.io/badge/React-18.3-61dafb?style=flat&logo=react&logoColor=white)](https://reactjs.org/)
+[![Flask](https://img.shields.io/badge/Flask-3.0-000000?style=flat&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14+-336791?style=flat&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![SQLite](https://img.shields.io/badge/SQLite-Fallback-003b57?style=flat&logo=sqlite&logoColor=white)](https://www.sqlite.org/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-## 1. Project overview
+**Demo:** http://localhost:5173  
+**API Base:** http://localhost:5000/api
 
-**Core journey**
-
-```text
-Discover school → Understand school → Compare → Shortlist → Enquire for admission
-```
-
-BoardingEdu demonstrates end-to-end full-stack skills:
-
-- REST APIs with clean architecture
-- Relational database design (PostgreSQL)
-- JWT authentication and role-based authorization
-- CRUD, search, filtering, sorting, pagination
-- React frontend integrated with a Flask backend
-- Validation, error handling, and responsive UI
-
-School profiles and fees in the demo are **fictional sample data** for evaluation purposes.
+</div>
 
 ---
 
-## 2. Screenshots
+## 📸 Screenshots
 
-These screenshots are included in the repository and are ready to render on GitHub.
+These screenshots showcase the key pages of the BoardingEdu platform.
+
+### 🏠 Home Page
+Landing page with hero search, featured schools, city-based browsing, and feature highlights.
 
 ![Home page](docs/screenshots/01-home.png)
 
+### 🔍 Schools Listing
+Search, filter (board, fees, boarding, facilities), sort, and paginate through all schools.
+
 ![Schools listing](docs/screenshots/02-schools.png)
+
+### 🎓 School Detail Page
+Full school profile with fees breakdown, facilities, infrastructure, gallery, and admission process.
 
 ![School detail](docs/screenshots/03-school-detail.png)
 
+### ⚖️ Compare Schools
+Side-by-side comparison of 2–3 shortlisted schools.
+
 ![Compare view](docs/screenshots/04-compare.png)
+
+### 🔐 Login / Register
+Secure JWT authentication for parents, students, and administrators.
 
 ![Login page](docs/screenshots/05-login.png)
 
+### 👨‍👩‍👧 Parent Dashboard
+Parent overview with shortlisted schools, enquiry tracking, and account management.
+
 ![Parent dashboard](docs/screenshots/06-parent-dashboard.png)
+
+### 🛡️ Admin Dashboard
+Admin statistics, school management, user listing, and enquiry status updates.
 
 ![Admin dashboard](docs/screenshots/07-admin-dashboard.png)
 
-## 3. Features
+---
 
-### Public (Guest)
+## ✨ Features
 
-- Browse and search schools
-- Filter by board, school type, boarding, gender, fee range, facilities
-- Sort by name, fee, or rating
-- View school details (fees, facilities, infrastructure, admission process)
-- Compare 2–3 schools (values loaded from the API)
+### 🌐 Public (Guest)
+- Browse and search schools by name, city, board, and more
+- Advanced filters: board, school type, boarding, gender, fee range, facilities
+- Sort results by name, fee (asc/desc), or rating
+- Paginated school listings
+- Detailed school profiles (fees, facilities, infrastructure, admission process)
+- Side-by-side comparison of 2–3 schools
 
-### Parent / Student
+### 👨‍👩‍👧 Parent / Student
+- Register and login (JWT authentication)
+- Shortlist / remove schools from favourites
+- Submit admission enquiries with student details
+- Track enquiry status from dashboard
+- View profile and parent dashboard summary
 
-- Register and login
-- Shortlist / remove schools
-- Submit admission enquiries
-- Track enquiry status
-- View profile and parent dashboard
-
-### Admin
-
-- Dashboard statistics (schools, users, shortlists, enquiries)
-- Create, update, and delete schools
-- View registered users
-- View and update enquiry status (`Pending` → `Contacted` → `In Review` → `Closed`)
+### 🛡️ Administrator
+- Dashboard with key statistics (schools, users, shortlists, enquiries)
+- Full CRUD operations for school records
+- View registered users directory
+- Manage enquiry workflow: `Pending` → `Contacted` → `In Review` → `Closed`
 
 ---
 
-## 3. Technology stack
+## 🛠️ Technology Stack
 
-| Layer | Technology | Why |
-|-------|------------|-----|
-| Frontend | React.js, Vite, JavaScript | Component UI, fast local tooling |
-| UI | Bootstrap 5, Bootstrap Icons | Responsive, consistent, interview-friendly |
-| Routing | React Router | SPA navigation and protected routes |
-| HTTP | Axios | Central API client with JWT interceptors |
-| Backend | Python 3, Flask | Lightweight REST API |
-| Auth | Flask-JWT-Extended, Werkzeug | JWT sessions + password hashing |
-| ORM | Flask-SQLAlchemy | Safe parameterized queries / relationships |
-| Database | PostgreSQL | Relational integrity for schools, fees, enquiries |
-| Deploy | Vercel (frontend), Render (API + Postgres) | Simple cloud deployment |
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Frontend** | React 18, Vite, JavaScript | Component-based SPA UI, fast dev tooling |
+| **UI Framework** | Bootstrap 5, Bootstrap Icons | Responsive, consistent design system |
+| **Routing** | React Router v6 | SPA navigation + protected role-based routes |
+| **HTTP Client** | Axios | Centralized API client with JWT interceptors |
+| **Backend** | Python 3, Flask | Lightweight, modular REST API |
+| **Authentication** | Flask-JWT-Extended, Werkzeug | JWT sessions + secure password hashing |
+| **ORM** | Flask-SQLAlchemy 3.x | Safe parameterized queries, model relationships |
+| **Database** | PostgreSQL (primary) / SQLite (fallback) | Relational integrity for all domain entities |
+| **Deployment** | Vercel (FE), Render (BE+DB) | Simple cloud deployment paths |
 
 ---
 
-## 4. Architecture
+## 🏗️ Architecture
 
-```text
-┌────────────────────┐         JSON / JWT          ┌────────────────────┐
-│  React (Vite) SPA  │  ─────────────────────────► │   Flask REST API   │
-│  AuthContext       │                             │   Blueprints       │
-│  CompareContext    │  ◄───────────────────────── │   Services         │
-│  Axios services    │                             │   SQLAlchemy models│
-└────────────────────┘                             └─────────┬──────────┘
-                                                             │
-                                                             ▼
-                                                    ┌────────────────────┐
-                                                    │    PostgreSQL      │
-                                                    └────────────────────┘
+```
+┌────────────────────────────┐      JSON / JWT       ┌────────────────────────────┐
+│   React (Vite) SPA         │ ────────────────────► │   Flask REST API           │
+│   • AuthContext            │                       │   • Blueprint routes       │
+│   • CompareContext         │ ◄──────────────────── │   • Service layer          │
+│   • Axios service layer    │                       │   • SQLAlchemy models      │
+└────────────────────────────┘                       └──────────────┬─────────────┘
+                                                                    │
+                                                                    ▼
+                                                   ┌────────────────────────────┐
+                                                   │   PostgreSQL / SQLite DB   │
+                                                   └────────────────────────────┘
 ```
 
-**Project layout**
+### Project Layout
 
 ```text
 BoardingEdu_Platform/
 ├── frontend/                 # React + Vite SPA
 │   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── layouts/
-│   │   ├── services/
-│   │   ├── context/
-│   │   └── utils/
-│   ├── vercel.json
+│   │   ├── components/       # Reusable UI components (Navbar, SchoolCard, etc.)
+│   │   ├── pages/            # Route-level pages (public, parent, admin)
+│   │   │   └── admin/        # Admin-only management pages
+│   │   ├── layouts/          # Shared layout wrappers
+│   │   ├── services/         # Axios-based API service modules
+│   │   ├── context/          # React Context (Auth, Compare)
+│   │   └── utils/            # Helper functions (formatters)
+│   ├── index.html
+│   ├── vite.config.js        # Dev server + /api proxy configuration
 │   └── package.json
 ├── backend/                  # Flask REST API
-│   ├── routes/
-│   ├── models/
-│   ├── services/
-│   ├── utils/
-│   ├── tests/
-│   ├── app.py
-│   ├── config.py
-│   ├── seed.py
-│   ├── setup_postgres.py
+│   ├── routes/               # API blueprints (auth, schools, admin, etc.)
+│   ├── models/               # SQLAlchemy ORM models
+│   ├── services/             # Business logic layer
+│   ├── utils/                # Decorators, response helpers, validators
+│   ├── tests/                # pytest API test suite
+│   ├── app.py                # Flask app factory
+│   ├── config.py             # Environment-driven config
+│   ├── seed.py               # Demo data seeder (13 schools + accounts)
 │   └── requirements.txt
 ├── database/
-│   └── schema.sql            # Reference SQL schema
+│   └── schema.sql            # Reference SQL DDL schema
 ├── postman/
 │   └── BoardingEdu_API.postman_collection.json
-├── DEPLOYMENT.md
-├── README.md
-├── .gitignore
-└── LICENSE
+├── docs/screenshots/         # README screenshots (7 pages)
+├── DEPLOYMENT.md             # Cloud deployment steps
+└── README.md
 ```
 
 ---
 
-## 5. Database design
+## 🗄️ Database Design
 
-PostgreSQL with normalized tables and foreign keys.
+PostgreSQL / SQLite with normalized tables and foreign-key relationships.
 
-| Table | Purpose |
-|-------|---------|
-| `users` | Parents, students, admins (hashed passwords) |
-| `schools` | School profiles, fees range, boarding, rating |
-| `school_fees` | Per-class fee breakdown |
-| `facilities` | Facility catalogue |
-| `school_facilities` | Many-to-many school ↔ facility (unique pair) |
-| `infrastructure` | Category + description per school |
-| `school_images` | Gallery image URLs |
-| `shortlists` | User shortlist (unique user + school) |
-| `admission_enquiries` | Enquiry workflow + status |
+| Table | Description |
+|-------|-------------|
+| `users` | Parents, students, admins — passwords stored as Werkzeug hashes |
+| `schools` | Core school profiles: fees range, board, rating, boarding flag |
+| `school_fees` | Per-class fee breakdown rows (admission, tuition, hostel, transport) |
+| `facilities` | Facility master catalog (library, lab, pool, etc.) |
+| `school_facilities` | Many-to-many school ↔ facility join (unique constraint) |
+| `infrastructure` | Per-school category/description infrastructure rows |
+| `school_images` | Gallery image URLs + captions |
+| `shortlists` | User shortlist entries (unique user+school constraint) |
+| `admission_enquiries` | Enquiry records with workflow status tracking |
 
 Reference DDL: [`database/schema.sql`](database/schema.sql)
 
-Tables are created automatically by `python seed.py` (`db.create_all()`).
+Tables are auto-created by `python seed.py` via `db.create_all()`.
 
 ---
 
-## 6. API endpoints
+## 📡 API Endpoints
 
-Base URL (local): `http://localhost:5000/api`
+**Base URL (local):** `http://localhost:5000/api`
 
-### Auth
-
-| Method | Endpoint | Access | Description |
-|--------|----------|--------|-------------|
-| POST | `/auth/register` | Public | Register parent/student only |
-| POST | `/auth/login` | Public | Login → JWT |
-| GET | `/auth/me` | JWT | Current user profile |
-
-### Schools
+### 🔐 Authentication
 
 | Method | Endpoint | Access | Description |
 |--------|----------|--------|-------------|
-| GET | `/schools` | Public | List + search/filter/sort/paginate |
-| GET | `/schools/filters` | Public | Filter dropdown options |
-| GET | `/schools/:id` | Public | Full school detail |
-| POST | `/schools` | Admin | Create school |
-| PUT | `/schools/:id` | Admin | Update school |
-| DELETE | `/schools/:id` | Admin | Delete school |
-| GET | `/schools/:id/fees` | Public | Fee rows |
-| GET | `/schools/:id/facilities` | Public | Facilities |
-| GET | `/schools/:id/infrastructure` | Public | Infrastructure |
-| GET | `/schools/:id/images` | Public | Images |
+| POST | `/auth/register` | Public | Register a parent/student account |
+| POST | `/auth/login` | Public | Exchange credentials for JWT |
+| GET | `/auth/me` | JWT | Fetch current user profile |
 
-**Useful query params for `GET /schools`:**  
-`q` / `name`, `city`, `board`, `school_type`, `gender`, `hostel_available`, `min_fee`, `max_fee`, `facility_ids`, `sort` (`name` \| `fee_asc` \| `fee_desc` \| `rating`), `page`, `per_page`
+### 🏫 Schools
 
-### Shortlists
+| Method | Endpoint | Access | Description |
+|--------|----------|--------|-------------|
+| GET | `/schools` | Public | List/search/filter/sort/paginate schools |
+| GET | `/schools/filters` | Public | Available filter dropdown options |
+| GET | `/schools/:id` | Public | Full school detail (fees, facilities, images) |
+| POST | `/schools` | Admin | Create a new school |
+| PUT | `/schools/:id` | Admin | Update existing school |
+| DELETE | `/schools/:id` | Admin | Soft-delete / remove school |
+| GET | `/schools/:id/fees` | Public | Per-class fee rows |
+| GET | `/schools/:id/facilities` | Public | School facility list |
+| GET | `/schools/:id/infrastructure` | Public | Infrastructure entries |
+| GET | `/schools/:id/images` | Public | Gallery image list |
+
+**Query params for `GET /schools`:**
+`q`, `name`, `city`, `board`, `school_type`, `gender`, `hostel_available`, `min_fee`, `max_fee`, `facility_ids`, `sort` (`name` \| `fee_asc` \| `fee_desc` \| `rating`), `page`, `per_page`
+
+### ❤️ Shortlists
 
 | Method | Endpoint | Access |
 |--------|----------|--------|
-| GET | `/shortlists` | Parent/Student |
-| POST | `/shortlists` | Parent/Student (`{ "school_id": 1 }`) |
-| DELETE | `/shortlists/:school_id` | Parent/Student |
+| GET | `/shortlists` | Parent / Student |
+| POST | `/shortlists` | Parent / Student — body: `{ "school_id": 1 }` |
+| DELETE | `/shortlists/:school_id` | Parent / Student |
 
-### Enquiries
+### 📨 Enquiries
 
 | Method | Endpoint | Access |
 |--------|----------|--------|
-| POST | `/enquiries` | Parent/Student |
-| GET | `/enquiries` | Parent/Student (own) or Admin (all) |
+| POST | `/enquiries` | Parent / Student |
+| GET | `/enquiries` | Parent (own) / Admin (all) |
 | GET | `/enquiries/:id` | Owner or Admin |
+| PUT | `/admin/enquiries/:id/status` | Admin only |
 
-### Admin
+### 🛡️ Admin
 
 | Method | Endpoint | Access |
 |--------|----------|--------|
@@ -218,141 +230,109 @@ Base URL (local): `http://localhost:5000/api`
 | GET | `/admin/enquiries` | Admin |
 | PUT | `/admin/enquiries/:id/status` | Admin |
 
-### Health
+### 💚 Health
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| GET | `/health` | API + database connectivity |
-| GET | `/` | Friendly API index |
+| GET | `/` | Friendly API index + endpoint listing |
+| GET | `/api/health` | API live + database connectivity probe |
 
-Authenticated requests:
-
+**Authenticated requests:**
 ```http
 Authorization: Bearer <access_token>
+Content-Type: application/json
 ```
 
 ---
 
-## 7. Installation instructions
+## 🚀 Local Development Setup
 
 ### Prerequisites
+- **Node.js** 18+ and npm
+- **Python** 3.10+
+- **PostgreSQL** 14+ **or** use the built-in **SQLite fallback** (zero-config)
+- **Git**
 
-- Node.js 18+ and npm
-- Python 3.10+
-- PostgreSQL 14+ (local or hosted)
-- Git
-
-### Clone
-
+### Step 1: Clone the repository
 ```bash
 git clone <your-repo-url>
 cd BoardingEdu_Platform
 ```
 
----
+### Step 2: Environment variables
 
-## 8. Environment variables
-
-### Backend — copy `backend/.env.example` → `backend/.env`
-
-| Variable | Purpose |
-|----------|---------|
-| `SECRET_KEY` | Flask secret |
-| `JWT_SECRET_KEY` | JWT signing key |
-| `DATABASE_URL` | PostgreSQL connection URL |
-| `CORS_ORIGINS` | Allowed frontend origins |
-| `DEMO_ADMIN_EMAIL` / `DEMO_ADMIN_PASSWORD` | Seeded admin (seed only) |
-| `DEMO_PARENT_EMAIL` / `DEMO_PARENT_PASSWORD` | Seeded parent (seed only) |
-
-Example:
-
+**Backend** — copy (or create) `backend/.env`:
 ```env
-DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/boardingedu
+# Flask / JWT
+SECRET_KEY=change-me-to-a-long-random-string
+JWT_SECRET_KEY=change-me-another-long-random-string
+JWT_ACCESS_TOKEN_EXPIRES_HOURS=24
+
+# Database — use SQLite for zero-config local dev:
+DATABASE_URL=sqlite:///boardingedu.db
+
+# ... or use PostgreSQL if you have it:
+# DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5432/boardingedu
+
 CORS_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+
+# Seed demo credentials (only used by seed.py)
+DEMO_ADMIN_EMAIL=admin@boardingedu.demo
+DEMO_ADMIN_PASSWORD=AdminDemo@123
+DEMO_PARENT_EMAIL=parent@boardingedu.demo
+DEMO_PARENT_PASSWORD=ParentDemo@123
 ```
 
-### Frontend — copy `frontend/.env.example` → `frontend/.env`
+**Frontend** — copy (or create) `frontend/.env`:
+```env
+VITE_API_BASE_URL=http://localhost:5000/api
+```
 
-| Variable | Purpose |
-|----------|---------|
-| `VITE_API_BASE_URL` | Flask API base, e.g. `http://localhost:5000/api` |
+> ⚠️ **Never commit `.env` files or real passwords.** They are already listed in `.gitignore`.
 
-**Never commit `.env` files or real passwords.**
-
----
-
-## 9. Database setup
-
-1. Install PostgreSQL and start the service.
-2. Set `DATABASE_URL` in `backend/.env` with your real password.
-3. Create the database and verify connectivity:
+### Step 3: Database + seed data
 
 ```bash
 cd backend
+
+# (Optional) Create a Python virtual environment
 python -m venv .venv
-
-# Windows PowerShell
+# Windows PowerShell:
 .venv\Scripts\Activate.ps1
-
-# macOS / Linux
+# macOS / Linux:
 # source .venv/bin/activate
 
+# Install Python dependencies
 pip install -r requirements.txt
+
+# (PostgreSQL only) Create the "boardingedu" database:
 python setup_postgres.py
-```
 
-`setup_postgres.py` creates the `boardingedu` database if it does not exist and checks the connection.
-
-You can also create the DB manually:
-
-```sql
-CREATE DATABASE boardingedu;
-```
-
----
-
-## 10. Seed instructions
-
-With the venv active and `DATABASE_URL` set:
-
-```bash
-cd backend
+# Seed the database with demo schools + users:
 python seed.py
 ```
 
-This will:
+`seed.py` will output:
+```
+Facilities : 12
+Schools    : 13
+Users      : 2
+Shortlists : 2
+Enquiries  : 1
+```
 
-- Create tables
-- Insert ~12 facilities and **13 fictional schools**
-- Create demo admin + parent accounts
-- Add sample shortlists and one pending enquiry
-
-Re-running `seed.py` clears and reloads demo data by default.
-
----
-
-## 11. Running the backend
+### Step 4: Run the backend API
 
 ```bash
 cd backend
-.venv\Scripts\Activate.ps1   # or: source .venv/bin/activate
 python app.py
 ```
 
-- API root: http://localhost:5000  
-- Health: http://localhost:5000/api/health  
+- API root: http://localhost:5000
+- Health check: http://localhost:5000/api/health
+- Expected: `{ "database": "connected", "status": "ok" }`
 
-Expect `"database": "connected"` when PostgreSQL is configured correctly.
-
-Production-style start:
-
-```bash
-gunicorn app:app
-```
-
----
-
-## 12. Running the frontend
+### Step 5: Run the frontend SPA
 
 ```bash
 cd frontend
@@ -360,128 +340,127 @@ npm install
 npm run dev
 ```
 
-App: http://localhost:5173
-
-Production build:
-
-```bash
-npm run build
-npm run preview
-```
+- App: http://localhost:5173
 
 ---
 
-## 13. Demo credentials
+## 🔑 Demo Credentials
 
-Demo users are created by `seed.py` using values from `backend/.env`.
+Seeded automatically by `python seed.py` using the `DEMO_*` values in your `backend/.env`:
 
-Defaults from `.env.example` (change these in your private `.env`):
-
-| Role | Email | Password env var |
+| Role | Email | Default Password |
 |------|-------|------------------|
-| Admin | `admin@boardingedu.demo` | `DEMO_ADMIN_PASSWORD` |
-| Parent | `parent@boardingedu.demo` | `DEMO_PARENT_PASSWORD` |
+| 🛡️ **Admin** | `admin@boardingedu.demo` | `AdminDemo@123` |
+| 👨‍👩‍👧 **Parent** | `parent@boardingedu.demo` | `ParentDemo@123` |
 
-Suggested demo walkthrough:
-
-1. Open **Schools** → search / filter → open a school  
-2. Add 2–3 schools to **Compare**  
-3. Login as **parent** → shortlist → submit enquiry  
-4. Login as **admin** → update enquiry status → manage schools  
+### Suggested Demo Walkthrough
+1. Open **Schools** → search / filter → open a school profile
+2. Add 2–3 schools to **Compare** → review side-by-side
+3. Login as **parent** → shortlist favourites → submit an admission enquiry
+4. Login as **admin** → view dashboard → update enquiry status → manage schools
 
 ---
 
-## 14. Deployment instructions
+## ☁️ Deployment
 
-Detailed steps: **[DEPLOYMENT.md](DEPLOYMENT.md)**
+See the full step-by-step guide in **[DEPLOYMENT.md](DEPLOYMENT.md)**.
 
-### Summary
+Quick summary:
 
-| Part | Platform | Notes |
-|------|----------|--------|
-| Frontend | Vercel | Root = `frontend`, set `VITE_API_BASE_URL` |
-| Backend | Render | Root = `backend`, start `gunicorn app:app` |
-| Database | Render Postgres (or any hosted Postgres) | Set `DATABASE_URL`, then run `seed.py` once |
+| Component | Platform | Notes |
+|-----------|----------|-------|
+| Frontend | **Vercel** | Root = `frontend/`, set `VITE_API_BASE_URL` env var |
+| Backend API | **Render** | Root = `backend/`, start command: `gunicorn app:app` |
+| Database | **Render Postgres** (or any hosted PG) | Set `DATABASE_URL`, then run `python seed.py` **once** |
 
-Also set on Render:
-
+Required Render env vars:
 - `SECRET_KEY`
 - `JWT_SECRET_KEY`
-- `CORS_ORIGINS` = your Vercel URL (no trailing slash)
+- `DATABASE_URL` (Render provides this automatically for internal PG)
+- `CORS_ORIGINS` = your Vercel frontend URL (no trailing slash)
 
 ---
 
-## 15. Testing
+## 🧪 Testing
 
-### Automated API tests
-
+### Automated API tests (pytest)
 ```bash
 cd backend
-.venv\Scripts\Activate.ps1
+.venv\Scripts\Activate.ps1   # or: source .venv/bin/activate
 pytest -q
 ```
+Tests run against an in-memory SQLite database (`TestingConfig`) — no PostgreSQL required.
 
 ### Manual API testing
-
-Import Postman collection:
-
+Import the Postman collection:
 [`postman/BoardingEdu_API.postman_collection.json`](postman/BoardingEdu_API.postman_collection.json)
 
 ---
 
-## Frontend routes
+## 🧭 Frontend Routes
 
-| Route | Description |
-|-------|-------------|
-| `/` | Home / landing |
-| `/schools` | Listing, search, filters |
-| `/schools/:id` | School details |
-| `/compare` | Side-by-side comparison |
-| `/login` / `/register` | Auth |
-| `/dashboard` | Parent dashboard |
-| `/shortlisted` | Shortlisted schools |
-| `/enquiries` | Parent enquiries |
-| `/profile` | User profile |
-| `/admin` | Admin dashboard |
-| `/admin/schools` | Manage schools |
-| `/admin/schools/new` | Add school |
-| `/admin/schools/:id/edit` | Edit school |
-| `/admin/enquiries` | Manage enquiries |
-| `/admin/users` | Registered users |
-
----
-
-## Security notes
-
-- Passwords hashed with Werkzeug (never stored in plain text)
-- JWT authentication for protected routes
-- Role-based authorization (parent/student vs admin)
-- Input validation on auth, schools, and enquiries
-- CORS limited to configured origins
-- Secrets via environment variables
-- SQLAlchemy ORM (parameterized queries)
-- Duplicate shortlists blocked by unique constraint
+| Path | Page | Access |
+|------|------|--------|
+| `/` | Home / landing page | Public |
+| `/schools` | School listing + search + filters | Public |
+| `/schools/:id` | School details page | Public |
+| `/compare` | Side-by-side comparison view | Public |
+| `/login` | Login form | Public |
+| `/register` | Registration form | Public |
+| `/dashboard` | Parent dashboard | Parent / Student |
+| `/shortlisted` | Shortlisted schools | Parent / Student |
+| `/enquiries` | My enquiries | Parent / Student |
+| `/profile` | User profile | Any authenticated |
+| `/admin` | Admin dashboard stats | Admin |
+| `/admin/schools` | Manage schools (CRUD) | Admin |
+| `/admin/schools/new` | Create new school | Admin |
+| `/admin/schools/:id/edit` | Edit existing school | Admin |
+| `/admin/enquiries` | Manage + update enquiries | Admin |
+| `/admin/users` | Registered users list | Admin |
 
 ---
 
-## Future improvements
+## 🔒 Security Notes
 
-- Image uploads to cloud object storage
-- Email / SMS notifications when enquiry status changes
-- Soft delete and admin audit logs
-- Saved searches and alerts for parents
-- Frontend e2e tests (Playwright/Cypress)
-- Caching for popular school listings
-- Pagination UX improvements and richer admin analytics
-
----
-
-## License
-
-MIT — see [LICENSE](LICENSE).
+- **Password hashing:** Werkzeug (PBKDF2) — never stored in plaintext
+- **Sessions:** JWT with configurable expiry (24h default)
+- **Authorization:** Role-based route guards (`parent`/`student` vs `admin`)
+- **Input validation:** Server-side validators for auth, schools, and enquiries
+- **CORS:** Strictly limited to configured origins only
+- **Secrets:** All credentials via environment variables — never hardcoded
+- **SQL injection protection:** SQLAlchemy ORM parameterized queries
+- **Duplicate prevention:** Unique constraints on shortlist (user+school) and user.email
 
 ---
 
-## Acknowledgements
+## 🚧 Future Improvements
 
-Built as an independent BoardingEdu product prototype for full-stack developer evaluation. Demo school names, fees, and images are fictional / placeholder content.
+- Cloud object storage for school image uploads (S3 / Cloudinary)
+- Email / SMS notifications on enquiry status transitions
+- Soft-delete + admin audit logging for destructive actions
+- Saved searches and price/rating alerts for parents
+- End-to-end frontend tests (Playwright / Cypress)
+- Redis caching for popular school listings and filter options
+- Enhanced pagination UX and richer admin analytics charts
+
+---
+
+## 📝 License
+
+MIT — see [LICENSE](LICENSE) for full text.
+
+---
+
+## 🙏 Acknowledgements
+
+Built as an independent full-stack product prototype for **BoardingEdu** developer evaluation. All demo school names, addresses, fees, and images are fictional / placeholder content for evaluation purposes only.
+
+---
+
+<div align="center">
+
+**Made with ❤ using React + Flask**
+
+[⬆ Back to top](#-boardingedu--school-discovery--admission-platform)
+
+</div>

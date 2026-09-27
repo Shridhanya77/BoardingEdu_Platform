@@ -780,8 +780,8 @@ def seed(reset: bool = True):
         print(f"  Shortlists : {Shortlist.query.count()}")
         print(f"  Enquiries  : {AdmissionEnquiry.query.count()}")
         print("\nDemo accounts (from environment / defaults):")
-        print(f"  Admin  → {Config.DEMO_ADMIN_EMAIL}")
-        print(f"  Parent → {Config.DEMO_PARENT_EMAIL}")
+        print(f"  Admin  : {Config.DEMO_ADMIN_EMAIL}")
+        print(f"  Parent : {Config.DEMO_PARENT_EMAIL}")
         print("  Passwords are set via DEMO_ADMIN_PASSWORD / DEMO_PARENT_PASSWORD in .env")
         print("  (See backend/.env.example — do not commit real credentials.)")
 
