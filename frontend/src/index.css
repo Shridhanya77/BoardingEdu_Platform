@@ -4,6 +4,7 @@
   --be-primary: #0b5f8a;
   --be-primary-dark: #084866;
   --be-primary-light: #1a7db0;
+  --be-primary-50: #e8f1f7;
   --be-accent: #e8a317;
   --be-accent-light: #f5b933;
   --be-surface: #f3f7fa;
@@ -19,6 +20,8 @@
   --be-radius-md: 0.75rem;
   --be-radius-lg: 1rem;
   --be-radius-xl: 1.25rem;
+  --be-transition-fast: 220ms cubic-bezier(.2,.8,.2,1);
+  --be-transition: 320ms cubic-bezier(.2,.8,.2,1);
 }
 
 *,
@@ -867,4 +870,206 @@ main > section {
   .be-cta {
     padding: 1.5rem 1rem !important;
   }
+
+  .dashboard-school-card {
+    border-radius: var(--be-radius-md);
+  }
+}
+
+/* ===== Dashboard & Enquiries School Images ===== */
+
+.be-stat-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--be-radius-lg);
+  font-size: 1.5rem;
+  background: var(--be-primary-light);
+  color: var(--be-primary);
+}
+
+.bg-teal-subtle { background: #cfe8e6; color: #0c6e67 !important; }
+.text-teal { color: #0c6e67 !important; }
+.bg-amber-subtle { background: #ffe7c2; color: #8a5a00 !important; }
+.text-amber { color: #8a5a00 !important; }
+
+.dashboard-school-card {
+  background: #fff;
+  border: 1px solid var(--be-border);
+  border-radius: var(--be-radius-md);
+  overflow: hidden;
+  transition: all var(--be-transition-fast);
+  box-shadow: var(--be-shadow-sm);
+}
+
+.dashboard-school-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--be-shadow-md);
+  border-color: var(--be-primary);
+}
+
+.dashboard-school-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--be-border);
+}
+
+.dashboard-school-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.dashboard-school-card:hover .dashboard-school-image img {
+  transform: scale(1.06);
+}
+
+/* ===== Enquiries Page Image Rows ===== */
+
+.enquiry-row {
+  transition: background-color 0.18s ease;
+}
+
+.enquiry-row:hover {
+  background: var(--be-primary-50);
+}
+
+.enquiry-row:last-child {
+  border-bottom: none !important;
+}
+
+.enquiry-school-image {
+  width: 128px;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--be-radius-md);
+  overflow: hidden;
+  background: var(--be-border);
+  box-shadow: var(--be-shadow-sm);
+  flex-shrink: 0;
+}
+
+.enquiry-school-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 575.98px) {
+  .enquiry-row {
+    flex-direction: column;
+    align-items: stretch !important;
+  }
+
+  .enquiry-school-image {
+    width: 100%;
+    aspect-ratio: 16 / 8;
+  }
+}
+
+/* ===== School Detail Gallery ===== */
+
+.be-gallery {
+  width: 100%;
+}
+
+.be-gallery-main {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--be-radius-lg);
+  overflow: hidden;
+  background: linear-gradient(135deg, #eef2f7, #dde5ef);
+  box-shadow: var(--be-shadow-lg);
+}
+
+.be-gallery-main img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+.be-gallery-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  border: none;
+  color: var(--be-primary);
+  font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--be-shadow-md);
+  transition: all 0.2s ease;
+}
+
+.be-gallery-nav:hover {
+  background: var(--be-primary);
+  color: #fff;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.be-gallery-prev { left: 16px; }
+.be-gallery-next { right: 16px; }
+
+.be-gallery-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.68), rgba(0,0,0,0));
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.be-gallery-thumbs {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+.be-gallery-thumb {
+  flex: 0 0 auto;
+  width: 112px;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--be-radius-sm);
+  overflow: hidden;
+  border: 2.5px solid transparent;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--be-shadow-sm);
+}
+
+.be-gallery-thumb:hover {
+  transform: translateY(-2px);
+  border-color: var(--be-primary-light);
+}
+
+.be-gallery-thumb.active {
+  border-color: var(--be-primary);
+  box-shadow: 0 0 0 3px rgba(26, 115, 131, 0.18);
+}
+
+.be-gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }

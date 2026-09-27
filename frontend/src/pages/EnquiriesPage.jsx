@@ -13,6 +13,14 @@ const STATUS_CLASS = {
   Closed: 'text-bg-secondary',
 }
 
+const schoolImage = (school) => {
+  if (!school) return 'https://picsum.photos/seed/be-default/160/90'
+  if (school.primary_image) return school.primary_image
+  const first = school.images?.[0]?.image_url
+  if (first) return first
+  return `https://picsum.photos/seed/be-${school.id}/160/90`
+}
+
 export default function EnquiriesPage() {
   const [items, setItems] = useState([])
   const [loading, setLoading] = useState(true)
@@ -43,39 +51,48 @@ export default function EnquiriesPage() {
         />
       )}
       {!loading && items.length > 0 && (
-        <div className="table-responsive">
-          <table className="table table-hover align-middle">
-            <thead className="table-light">
-              <tr>
-                <th>School</th>
-                <th>Student</th>
-                <th>Class</th>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {items.map((item) => (
-                <tr key={item.id}>
-                  <td>
-                    {item.school ? (
-                      <Link to={`/schools/${item.school.id}`}>{item.school.name}</Link>
-                    ) : (
-                      '—'
-                    )}
-                  </td>
-                  <td>{item.student_name}</td>
-                  <td>{item.class_name || '—'}</td>
-                  <td>{item.created_at ? new Date(item.created_at).toLocaleDateString() : '—'}</td>
-                  <td>
-                    <span className={`badge ${STATUS_CLASS[item.status] || 'text-bg-light'}`}>
-                      {item.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="card shadow-sm border-0">
+          <div className="card-body p-0">
+            {items.map((item) => (
+              <div key={item.id} className="enquiry-row d-flex align-items-center gap-3 p-3 border-bottom">
+                <div className="enquiry-school-image flex-shrink-0">
+                  <img
+                    src={schoolImage(item.school)}
+                    alt={item.school?.name || 'School'}
+                    loading="lazy"
+                  />
+                </div>
+                <div className="flex-grow-1 min-w-0">
+                  {item.school ? (
+                    <Link to={`/schools/${item.school.id}`} className="text-decoration-none">
+                      <h3 className="h6 fw-semibold mb-1 text-dark">{item.school.name}</h3>
+                    </Link>
+                  ) : (
+                    <h3 className="h6 fw-semibold mb-1 text-muted">—</h3>
+                  )}
+                  <p className="small text-muted mb-1">
+                    <i className="bi bi-person me-1" /> Student: <strong>{item.student_name}</strong>
+                    <span className="mx-2">•</span>
+                    Class: {item.class_name || '—'}
+                  </p>
+                  <p className="small text-muted mb-0">
+                    <i className="bi bi-calendar3 me-1" />
+                    {item.created_at ? new Date(item.created_at).toLocaleDateString() : '—'}
+                  </p>
+                </div>
+                <div className="flex-shrink-0 d-flex flex-column align-items-end gap-2">
+                  <span className={`badge ${STATUS_CLASS[item.status] || 'text-bg-light'}`}>
+                    {item.status}
+                  </span>
+                  {item.school && (
+                    <Link to={`/schools/${item.school.id}`} className="btn btn-sm btn-outline-primary">
+                      View school
+                    </Link>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

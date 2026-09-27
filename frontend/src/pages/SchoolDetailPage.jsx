@@ -21,6 +21,7 @@ export default function SchoolDetailPage() {
   const [shortlisted, setShortlisted] = useState(false)
   const [busy, setBusy] = useState(false)
   const [showEnquiry, setShowEnquiry] = useState(false)
+  const [activeImage, setActiveImage] = useState(0)
 
   useEffect(() => {
     let ignore = false
@@ -97,6 +98,7 @@ export default function SchoolDetailPage() {
     ? school.images
     : [{ image_url: `https://picsum.photos/seed/be-d-${school.id}/1000/520`, caption: 'Campus' }]
   const selected = isSelected(school.id)
+  const mainImage = images[activeImage] || images[0]
 
   return (
     <div className="container py-4">
@@ -117,7 +119,52 @@ export default function SchoolDetailPage() {
       <AlertMessage message={error} onClose={() => setError('')} />
 
       <div className="be-gallery mb-4">
-        <img src={images[0].image_url} alt={images[0].caption || school.name} />
+        <div className="be-gallery-main">
+          <img
+            src={mainImage.image_url}
+            alt={mainImage.caption || school.name}
+          />
+          {images.length > 1 && (
+            <>
+              <button
+                type="button"
+                className="be-gallery-nav be-gallery-prev"
+                onClick={() =>
+                  setActiveImage((i) => (i - 1 + images.length) % images.length)
+                }
+                aria-label="Previous image"
+              >
+                <i className="bi bi-chevron-left" />
+              </button>
+              <button
+                type="button"
+                className="be-gallery-nav be-gallery-next"
+                onClick={() => setActiveImage((i) => (i + 1) % images.length)}
+                aria-label="Next image"
+              >
+                <i className="bi bi-chevron-right" />
+              </button>
+            </>
+          )}
+          {mainImage.caption && (
+            <div className="be-gallery-caption">{mainImage.caption}</div>
+          )}
+        </div>
+        {images.length > 1 && (
+          <div className="be-gallery-thumbs">
+            {images.map((img, idx) => (
+              <button
+                key={idx}
+                type="button"
+                className={`be-gallery-thumb ${idx === activeImage ? 'active' : ''}`}
+                onClick={() => setActiveImage(idx)}
+                aria-label={`View image ${idx + 1}: ${img.caption || ''}`}
+              >
+                <img src={img.image_url} alt={img.caption || ''} loading="lazy" />
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="row g-4">
