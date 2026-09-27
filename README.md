@@ -1,10 +1,10 @@
 # 🏫 BoardingEdu – School Discovery & Admission Platform
 
-> **Live Demo:** [BoardingEdu](https://boarding-edu-platform.vercel.app/)
+> **Live Demo:** [BoardingEdu](https://boardingedu-platform.vercel.app)
 >
 > **Backend API:** `https://boardingedu-platform-1.onrender.com`
 >
-> **API Health:** `https://boardingedu-platform-1.onrender.com/api/health`
+> **API Health:** [https://boardingedu-platform-1.onrender.com/api/health](https://boardingedu-platform-1.onrender.com/api/health)
 
 <div align="center">
 
@@ -33,37 +33,37 @@ These screenshots showcase the key pages of the BoardingEdu platform.
 ### 🏠 Home Page
 Landing page with hero search, featured schools, city-based browsing, and feature highlights.
 
-![Home page]("C:\Users\HP\OneDrive\Documents\BoardingEdu_Platform\docs\screenshots\01-home.png")
+![Home page](docs/screenshots/01-home.png)
 
 ### 🔍 Schools Listing
 Search, filter (board, fees, boarding, facilities), sort, and paginate through all schools.
 
-![Schools listing](docs/screenshots/02-schools.jpg)
+![Schools listing](docs/screenshots/02-schools.png)
 
 ### 🎓 School Detail Page
 Full school profile with fees breakdown, facilities, infrastructure, gallery, and admission process.
 
-![School detail](docs/screenshots/03-school-detail.jpg)
+![School detail](docs/screenshots/03-school-detail.png)
 
 ### ⚖️ Compare Schools
 Side-by-side comparison of 2–3 shortlisted schools.
 
-![Compare view](docs/screenshots/04-compare.jpg)
+![Compare view](docs/screenshots/04-compare.png)
 
 ### 🔐 Login / Register
 Secure JWT authentication for parents, students, and administrators.
 
-![Login page](docs/screenshots/05-login.jpg)
+![Login page](docs/screenshots/05-login.png)
 
 ### 👨‍👩‍👧 Parent Dashboard
 Parent overview with shortlisted schools, enquiry tracking, and account management.
 
-![Parent dashboard](docs/screenshots/06-parent-dashboard.jpg)
+![Parent dashboard](docs/screenshots/06-parent-dashboard.png)
 
 ### 🛡️ Admin Dashboard
 Admin statistics, school management, user listing, and enquiry status updates.
 
-![Admin dashboard](docs/screenshots/07-admin-dashboard.jpg)
+![Admin dashboard](docs/screenshots/07-admin-dashboard.png)
 
 ---
 

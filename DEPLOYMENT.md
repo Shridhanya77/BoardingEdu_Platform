@@ -76,7 +76,7 @@ After the first deploy, open `https://your-api.onrender.com/api/health` and conf
 Backend `CORS_ORIGINS` must include the exact frontend origin (no trailing slash), for example:
 
 ```text
-https://boardingedu.vercel.app
+https://boardingedu-platform.vercel.app
 ```
 
 Redeploy the API after changing CORS.
