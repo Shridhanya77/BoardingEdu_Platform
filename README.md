@@ -29,7 +29,7 @@ Landing page with hero search, featured schools, city-based browsing, and featur
 ### 🔍 Schools Listing
 Search, filter (board, fees, boarding, facilities), sort, and paginate through all schools.
 
-![Schools listing](docs/screenshots/02-schools.jpg)
+![Schools listing](docs/screenshots/02-schools.png)
 
 ### 🎓 School Detail Page
 Full school profile with fees breakdown, facilities, infrastructure, gallery, and admission process.
