@@ -24,7 +24,7 @@ These screenshots showcase the key pages of the BoardingEdu platform.
 ### 🏠 Home Page
 Landing page with hero search, featured schools, city-based browsing, and feature highlights.
 
-![Home page]("docs/screenshots/01-home.png")
+![Home page](docs/screenshots/01-home.png)
 
 ### 🔍 Schools Listing
 Search, filter (board, fees, boarding, facilities), sort, and paginate through all schools.
