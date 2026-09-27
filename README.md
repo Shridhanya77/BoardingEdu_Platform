@@ -24,37 +24,37 @@ These screenshots showcase the key pages of the BoardingEdu platform.
 ### 🏠 Home Page
 Landing page with hero search, featured schools, city-based browsing, and feature highlights.
 
-![Home page](docs/screenshots/01-home.png)
+![Home page](docs/screenshots/01-home.jpg)
 
 ### 🔍 Schools Listing
 Search, filter (board, fees, boarding, facilities), sort, and paginate through all schools.
 
-![Schools listing](docs/screenshots/02-schools.png)
+![Schools listing](docs/screenshots/02-schools.jpg)
 
 ### 🎓 School Detail Page
 Full school profile with fees breakdown, facilities, infrastructure, gallery, and admission process.
 
-![School detail](docs/screenshots/03-school-detail.png)
+![School detail](docs/screenshots/03-school-detail.jpg)
 
 ### ⚖️ Compare Schools
 Side-by-side comparison of 2–3 shortlisted schools.
 
-![Compare view](docs/screenshots/04-compare.png)
+![Compare view](docs/screenshots/04-compare.jpg)
 
 ### 🔐 Login / Register
 Secure JWT authentication for parents, students, and administrators.
 
-![Login page](docs/screenshots/05-login.png)
+![Login page](docs/screenshots/05-login.jpg)
 
 ### 👨‍👩‍👧 Parent Dashboard
 Parent overview with shortlisted schools, enquiry tracking, and account management.
 
-![Parent dashboard](docs/screenshots/06-parent-dashboard.png)
+![Parent dashboard](docs/screenshots/06-parent-dashboard.jpg)
 
 ### 🛡️ Admin Dashboard
 Admin statistics, school management, user listing, and enquiry status updates.
 
-![Admin dashboard](docs/screenshots/07-admin-dashboard.png)
+![Admin dashboard](docs/screenshots/07-admin-dashboard.jpg)
 
 ---
 
