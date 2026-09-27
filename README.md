@@ -17,6 +17,10 @@
 
 ---
 
+Frontend → Vercel
+Backend → Render
+Database → Hosted PostgreSQL (Render Postgres or any provider)
+
 ## 📸 Screenshots
 
 These screenshots showcase the key pages of the BoardingEdu platform.

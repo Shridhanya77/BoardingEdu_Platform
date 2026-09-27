@@ -2,13 +2,6 @@
 
 Flask REST API for the School Discovery & Admission Platform.
 
-## Phase status
-
-- **Phase 5: School search / filter / sort APIs** ← current
-- Phase 4: School CRUD APIs
-- Phase 3: Authentication APIs (JWT)
-- Phase 2: SQLAlchemy models + seed data
-- Phase 1: Scaffolding
 
 ## Auth API
 
