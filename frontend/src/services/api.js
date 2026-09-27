@@ -1,11 +1,23 @@
 import axios from 'axios'
 
+const normalizeBaseUrl = (url) => {
+  if (!url) return url
+  return url
+    .trim()
+    .replace(/\/+$/, '')
+    .replace(/\.+$/, '')
+}
+
+const rawBaseUrl = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL)
+const fallbackLocal = 'http://127.0.0.1:5000/api'
+const finalBaseUrl = rawBaseUrl || fallbackLocal
+
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:5000/api',
+  baseURL: finalBaseUrl,
   headers: {
     'Content-Type': 'application/json',
   },
-  timeout: 15000,
+  timeout: 20000,
 })
 
 api.interceptors.request.use((config) => {
@@ -42,10 +54,14 @@ export function getErrorMessage(error, fallback = 'Something went wrong.') {
       if (!navigator.onLine) {
         return 'No internet connection. Please check your network and try again.'
       }
-      const base = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:5000/api').replace('/api', '')
+      const apiBase = finalBaseUrl.replace(/\/api\/?$/, '')
+      const isLocal = apiBase.includes('localhost') || apiBase.includes('127.0.0.1')
+      const hint = isLocal
+        ? `\nRun: cd backend ; python app.py`
+        : ''
       return (
-        `Network error. Check that the API server is running at ${base}.\n` +
-        'Run: cd backend ; python app.py'
+        `Network error. Check that the API server is running at \`${apiBase}\`.` +
+        hint
       )
     }
     return fallback

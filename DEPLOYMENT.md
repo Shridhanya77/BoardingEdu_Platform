@@ -6,7 +6,39 @@ This document covers deploying the BoardingEdu prototype:
 - **Backend** → [Render](https://render.com)
 - **Database** → Hosted PostgreSQL (Render Postgres or any provider)
 
-Never commit real secrets. Use each platform’s environment variable UI.
+Never commit real secrets. Use each platform's environment variable UI.
+
+---
+
+## ⚠️ Non-Negotiable Pre-Launch Checklist
+
+**Do these first — if the live demo fails it's almost always one of these:**
+
+| # | Where | Setting | Value |
+|---|-------|---------|-------|
+| 1 | **Vercel → Project → Settings → Environment Variables** | `VITE_API_BASE_URL` | `https://boardingedu-platform-1.onrender.com/api`  *(no trailing slash, no trailing period)* |
+| 2 | **Render → Backend → Environment** | `CORS_ORIGINS` | `https://boardingedu-platform.vercel.app` *(exact Vercel URL, no trailing slash)* |
+| 3 | **Render → Backend → Environment** | `DATABASE_URL` | Provided automatically by Render's internal PG, or your hosted PostgreSQL URL |
+| 4 | **Render → Backend → Environment** | `SECRET_KEY` + `JWT_SECRET_KEY` | Two different long random strings |
+
+**After each env var change you must Redeploy** the affected service (both if you changed both).
+
+---
+
+## 0. Verify the Backend First
+
+Before deploying the frontend anywhere, confirm your Render backend returns healthy:
+
+```
+https://boardingedu-platform-1.onrender.com/api/health
+```
+
+Expected output:
+```json
+{"status":"ok","database":"connected","success":true}
+```
+
+If this doesn't work, fix the backend + DB first. The frontend can't load data without it.
 
 ---
 
