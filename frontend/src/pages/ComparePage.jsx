@@ -103,7 +103,7 @@ export default function ComparePage() {
         <div>
           <h1 className="h3 mb-1">Compare schools</h1>
           <p className="text-muted mb-0">
-            Select 2–{max} schools from listings. Values load from the API (not hardcoded).
+            Select 2–{max} schools from listings.
           </p>
         </div>
         {ids.length > 0 && (

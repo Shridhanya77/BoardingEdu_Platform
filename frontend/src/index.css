@@ -1144,9 +1144,43 @@ section h1.h3 {
 }
 
 .be-footer {
-  background: linear-gradient(180deg, #0a3044 0%, #072533 100%);
-  color: rgba(255, 255, 255, 0.85);
+  background: linear-gradient(135deg, #0b5f8a 0%, #084866 100%);
+  color: #ffffff !important;
   border-top: 3px solid var(--be-accent);
+}
+
+.be-footer p,
+.be-footer span,
+.be-footer li,
+.be-footer div {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.be-footer h5,
+.be-footer h6 {
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+.be-footer a {
+  color: #ffffff !important;
+  text-decoration: none;
+}
+
+.be-footer a:hover {
+  color: var(--be-accent-light) !important;
+}
+
+.be-footer hr {
+  border-color: rgba(255, 255, 255, 0.25);
+}
+
+.be-footer .text-muted {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.be-footer .be-brand {
+  color: #ffffff !important;
 }
 
 .be-footer a {

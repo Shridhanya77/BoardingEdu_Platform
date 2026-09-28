@@ -30,8 +30,7 @@ export default function Footer() {
           <div className="col-md-4">
             <h6 className="fw-semibold">Note</h6>
             <p className="small text-muted mb-0">
-              School profiles and fees shown here are <strong>demo/sample data</strong> for
-              evaluation purposes — not affiliated with real institutions.
+              School profiles and fees shown here are not affiliated with real institutions.
             </p>
           </div>
         </div>
